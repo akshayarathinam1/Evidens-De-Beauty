@@ -1,0 +1,1442 @@
+/* ============================================================
+   EviDenS de Beauté — Full Choreographed Experience (All Stages)
+   ============================================================ */
+
+.pageWrapper {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  background: #000000;
+  overflow: hidden;
+}
+
+/* ────────────────────────────────────────────────────────────
+   PHASE 1: 5-COLUMN GRADUAL REVEAL OVERLAY
+   ──────────────────────────────────────────────────────────── */
+.columnOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  z-index: 100;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.overlayInactive {
+  pointer-events: none;
+}
+
+/* 5 Black Curtain Columns */
+.column {
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  transform: translateY(0);
+  transition: transform 1.3s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
+}
+
+.column:last-child {
+  border-right: none;
+}
+
+.col1 { transition-delay: 0ms; }
+.col2 { transition-delay: 110ms; }
+.col3 { transition-delay: 220ms; }
+.col4 { transition-delay: 330ms; }
+.col5 { transition-delay: 440ms; }
+
+.colOpened {
+  transform: translateY(-100%);
+}
+
+/* Centered Brand Icon */
+.iconContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  animation: iconSlowShrink 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  transition: opacity 0.35s ease, transform 0.4s ease, visibility 0.35s ease;
+  opacity: 1;
+  visibility: visible;
+}
+
+@keyframes iconSlowShrink {
+  0% {
+    transform: translate(-50%, -50%) scale(2.8);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.iconHidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translate(-50%, -50%) scale(0.85) !important;
+  pointer-events: none !important;
+}
+
+.brandIcon {
+  width: clamp(70px, 7vw, 105px);
+  height: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+/* Prompt line */
+.overlayPrompt {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 110;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: fadeInPrompt 1.2s ease 1.8s forwards;
+  color: rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.promptHidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.promptText {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.promptLine {
+  width: 1px;
+  height: 22px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), transparent);
+  animation: pulseLine 2s infinite ease-in-out;
+}
+
+@keyframes fadeInPrompt {
+  to { opacity: 0.7; }
+}
+
+@keyframes pulseLine {
+  0%, 100% { transform: translateY(0); opacity: 0.3; }
+  50% { transform: translateY(5px); opacity: 1; }
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   MAIN HERO & INTERACTIVE SECTION
+   ──────────────────────────────────────────────────────────── */
+.heroSection {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  background: #0e0f11;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 10;
+  cursor: pointer;
+}
+
+/* Top Navbar */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2.2rem 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 40;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+}
+
+.navItem {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #d1d5db;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.25s ease;
+}
+
+.navItem:hover {
+  color: #ffffff;
+}
+
+.activeNavItem {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Contact pill button */
+.contactBtn {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #ffffff;
+  background: rgba(85, 87, 92, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0.55rem 1.6rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contactBtn:hover {
+  background: rgba(115, 118, 125, 0.9);
+  transform: translateY(-1px);
+}
+
+/* Studio Lighting Gradient */
+.studioLighting {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(
+    ellipse 72% 62% at 50% 45%,
+    #8e929a 0%,
+    #50545b 28%,
+    #25272c 58%,
+    #0c0d0f 100%
+  );
+  transition: background 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+/* Studio Light for Palm Stage */
+.studioLightingPalm {
+  background: #e6e6e6;
+}
+
+/* Studio Light for Botanical Stage */
+.studioLightingBotanical {
+  background: radial-gradient(
+    ellipse 85% 70% at 75% 35%,
+    #5c5f66 0%,
+    #32343a 32%,
+    #17181c 65%,
+    #090a0c 100%
+  );
+}
+
+/* Nav contrast during palm stage */
+.palmStageActive .navItem {
+  color: #1a1a1a;
+}
+
+.palmStageActive .navItem:hover {
+  color: #000000;
+}
+
+.palmStageActive .activeNavItem {
+  color: #000000;
+  font-weight: 500;
+}
+
+.palmStageActive .contactBtn {
+  background: rgba(30, 30, 30, 0.4);
+  color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Nav contrast during botanical luxury stage */
+.botanicalStageActive .navItem {
+  color: #d1d5db;
+}
+
+.botanicalStageActive .navItem:hover {
+  color: #ffffff;
+}
+
+.botanicalStageActive .activeNavItem {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.botanicalStageActive .contactBtn {
+  background: rgba(85, 87, 92, 0.75);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ────────────────────────────────────────────────────────────
+   PHASE 2-3: ROCK LAYERS & WORDMARK
+   ──────────────────────────────────────────────────────────── */
+.rockLeftWrapper {
+  position: absolute;
+  top: -30px;
+  left: -70px;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-70px) translateY(20px);
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 1.4s ease;
+  will-change: transform, opacity;
+}
+
+.rockLeftVisible {
+  opacity: 0.95;
+  transform: translateX(0) translateY(0);
+}
+
+.rockLeftDismissed {
+  opacity: 0 !important;
+  transform: translateX(-120px) translateY(40px) !important;
+  transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1),
+              opacity 1.2s ease !important;
+}
+
+.rockLeftImg {
+  width: clamp(380px, 42vw, 680px);
+  height: auto;
+  object-fit: contain;
+}
+
+.brandWordings {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translate(-50%, 25px) scale(0.96);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  max-width: 1200px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.wordingsVisible {
+  opacity: 0.92;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.wordingsDismissed {
+  opacity: 0 !important;
+  transform: translate(-50%, -20px) scale(0.95) !important;
+  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.77, 0, 0.175, 1) !important;
+}
+
+.evidensImage {
+  width: clamp(450px, 70vw, 1050px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.6));
+}
+
+.rockBaseWrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -20px;
+  height: 54%;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(90px);
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s,
+              opacity 1.4s ease 0.2s;
+  will-change: transform, opacity;
+}
+
+.rockBaseRise {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.rockBaseDismissed {
+  opacity: 0 !important;
+  transform: translateY(140px) !important;
+  transition: transform 1.6s cubic-bezier(0.77, 0, 0.175, 1),
+              opacity 1.3s ease !important;
+}
+
+.rockBaseImg {
+  object-fit: cover;
+  object-position: center bottom;
+}
+
+.rockRightWrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(80px) translateY(-30px);
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 1.4s ease;
+  will-change: transform, opacity;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.rockRightVisible {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+}
+
+.rockRightDismissed {
+  opacity: 0 !important;
+  transform: translateX(120px) translateY(-40px) !important;
+  transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1),
+              opacity 1.2s ease !important;
+}
+
+.rockRightImg {
+  width: clamp(320px, 36vw, 620px);
+  height: 100%;
+  object-fit: cover;
+  object-position: right top;
+}
+
+/* ────────────────────────────────────────────────────────────
+   PHASE 4: INGREDIENTS CONTAINER — z-index: 12
+   ──────────────────────────────────────────────────────────── */
+.ingredientsContainer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 12;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.ingredientsDismissed {
+  opacity: 0 !important;
+  transform: scale(0.6) !important;
+  pointer-events: none !important;
+}
+
+.ingredientOrb {
+  position: absolute;
+  width: clamp(75px, 8.5vw, 105px);
+  height: clamp(75px, 8.5vw, 105px);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: all;
+  cursor: pointer;
+  will-change: transform, opacity;
+}
+
+.ingCard {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+              0 0 20px rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.35s ease;
+  animation: orbFloat 4s ease-in-out infinite alternate;
+}
+
+.ingCard:hover {
+  transform: scale(1.1);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6),
+              0 0 30px rgba(201, 169, 110, 0.5);
+}
+
+.ingImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+@keyframes orbFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-8px); }
+}
+
+.ingTopLeft {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.2);
+  transition: all 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+
+.ingTopLeft.ingVisible {
+  top: calc(50% - 135px);
+  left: calc(50% - 240px);
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.ingBottomLeft {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.2);
+  transition: all 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+}
+
+.ingBottomLeft.ingVisible {
+  top: calc(50% + 15px);
+  left: calc(50% - 240px);
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.ingTopRight {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.2);
+  transition: all 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+
+.ingTopRight.ingVisible {
+  top: calc(50% - 120px);
+  left: calc(50% + 240px);
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.ingBottomRight {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.2);
+  transition: all 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+}
+
+.ingBottomRight.ingVisible {
+  top: calc(50% + 20px);
+  left: calc(50% + 240px);
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   PHASE 5: 3-PRODUCT FLOATING ROCK SHOWCASE — z-index: 20
+   ──────────────────────────────────────────────────────────── */
+.trioShowcaseContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.96) translateY(30px);
+  transition: opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.trioVisible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: all;
+}
+
+.trioDismissedForPalm {
+  opacity: 0 !important;
+  transform: scale(0.9) translateY(-30px) !important;
+  pointer-events: none !important;
+  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.77, 0, 0.175, 1) !important;
+}
+
+/* Background Typography */
+.trioHeaderBackground {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+  width: 90%;
+  max-width: 1300px;
+}
+
+.richCreamText {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(4rem, 11.5vw, 9.5rem);
+  font-weight: 700;
+  letter-spacing: clamp(0.15em, 2.5vw, 0.32em);
+  color: rgba(255, 255, 255, 0.08);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.evidensHeaderImageWrapper {
+  margin-top: -1.5rem;
+  opacity: 0.75;
+}
+
+.evidensHeaderImg {
+  width: clamp(140px, 15vw, 210px);
+  height: auto;
+  object-fit: contain;
+}
+
+/* 3-Product Grid */
+.trioProductsGrid {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(1rem, 3.5vw, 4.5rem);
+  width: 95%;
+  max-width: 1350px;
+  margin-top: 50px;
+}
+
+.trioProductCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+.trioProductCard:hover {
+  transform: translateY(-10px) scale(1.03);
+}
+
+/* Left product card */
+.trioLeft {
+  animation: floatPedestal 5.5s ease-in-out infinite alternate;
+}
+
+/* Center product card */
+.trioCenter {
+  transform: translateY(-8px);
+  animation: floatPedestalCenter 5s ease-in-out infinite alternate;
+}
+
+/* Right product card */
+.trioRight {
+  animation: floatPedestalRight 6s ease-in-out infinite alternate;
+}
+
+@keyframes floatPedestal {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+@keyframes floatPedestalCenter {
+  0% { transform: translateY(-8px); }
+  100% { transform: translateY(-18px); }
+}
+
+@keyframes floatPedestalRight {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-12px); }
+}
+
+/* Product Jars on Pedestal (Positioned directly onto the rock surface) */
+.trioProductJar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(-135px, -11.5vw, -100px);
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.95));
+}
+
+.product2Img,
+.product3Img {
+  width: clamp(210px, 23vw, 290px);
+  height: auto;
+  display: block;
+}
+
+.trioCapFrame {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -4px;
+}
+
+.trioCapImg {
+  width: clamp(210px, 23vw, 280px);
+  height: auto;
+  display: block;
+}
+
+.trioBottleFrame {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.trioBottleImg {
+  width: clamp(210px, 23vw, 280px);
+  height: auto;
+  display: block;
+}
+
+/* Floating Rock Pedestal */
+.trioFloatingRock {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.smallRockImg {
+  width: clamp(240px, 28vw, 360px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.95));
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   PHASE 6: PALM HAND HOLDING MIDDLE PRODUCT (NEXT SECTION)
+   ──────────────────────────────────────────────────────────── */
+.palmShowcaseContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(80px);
+  transition: opacity 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.palmStageVisible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+/* Left Features List (Animates in from left with staggered delay) */
+.palmFeaturesList {
+  position: absolute;
+  left: clamp(2.5rem, 6.5vw, 7.5rem);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.4rem, 3.2vh, 2.4rem);
+  z-index: 10;
+  max-width: 480px;
+}
+
+.palmFeatureItem {
+  display: flex;
+  align-items: center;
+  gap: 1.3rem;
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+  cursor: default;
+}
+
+.palmStageVisible .palmFeatureItem.feat1 {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.3s;
+}
+
+.palmStageVisible .palmFeatureItem.feat2 {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.5s;
+}
+
+.palmStageVisible .palmFeatureItem.feat3 {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.7s;
+}
+
+.palmStageVisible .palmFeatureItem.feat4 {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.9s;
+}
+
+.featIconBox {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.palmFeatureItem:hover .featIconBox {
+  transform: scale(1.1);
+}
+
+.featLabel {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(1.02rem, 1.3vw, 1.22rem);
+  font-weight: 500;
+  color: #1a1a1a;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+/* Background BEAUTE watermark across lower section */
+.palmBeauteWatermark {
+  position: absolute;
+  bottom: 6%;
+  left: 6%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(4.5rem, 12vw, 9.5rem);
+  font-weight: 700;
+  letter-spacing: clamp(0.18em, 2.5vw, 0.34em);
+  color: rgba(0, 0, 0, 0.055);
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.4s ease 0.6s, transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.6s;
+}
+
+.palmStageVisible .palmBeauteWatermark {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hand & Product Unified Composition anchored to the bottom right */
+.palmComposition {
+  position: absolute;
+  right: 0;
+  bottom: -30px;
+  width: clamp(620px, 64vw, 980px);
+  height: auto;
+  display: block;
+}
+
+.palmHandAsset {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.28));
+}
+
+/* Product Container nestled directly on the palm surface */
+.palmProductContainer {
+  position: absolute;
+  left: 56.5%;
+  top: 23%;
+  width: 32%;
+  transform: rotate(11deg);
+  transform-origin: center bottom;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.5));
+  animation: palmJarFloat 5s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes palmJarFloat {
+  0% { transform: rotate(11deg) translateY(0); }
+  100% { transform: rotate(11deg) translateY(-8px); }
+}
+
+.palmCapFrame {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -4px;
+}
+
+.palmCapImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.palmBottleFrame {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.palmBottleImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   INITIAL SINGLE CENTER JAR (STAGE 2-5)
+   ──────────────────────────────────────────────────────────── */
+.productJarContainer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  opacity: 0;
+  transform: translateY(110px) scale(0.95);
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s,
+              opacity 1.4s ease 0.3s;
+  cursor: pointer;
+  will-change: transform, opacity;
+}
+
+.productJarRise {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.productJarCentered {
+  transform: translateY(-8px) scale(1.04);
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.productJarDismissed {
+  opacity: 0 !important;
+  transform: scale(0.88) translateY(-15px) !important;
+  pointer-events: none !important;
+  transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.77, 0, 0.175, 1) !important;
+}
+
+.productJarGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(201, 169, 110, 0.1) 40%,
+    transparent 70%
+  );
+  filter: blur(45px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.groundShadow {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.7);
+  width: 320px;
+  height: 48px;
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.5) 45%,
+    transparent 75%
+  );
+  filter: blur(12px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 1.5s ease 0.4s, transform 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
+}
+
+.groundShadowVisible {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Gold Metallic Cap / Lid */
+.capFrame {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -4px;
+  transform: translateY(0) rotate(0deg);
+  transition: transform 1.4s cubic-bezier(0.34, 1.25, 0.64, 1);
+  will-change: transform;
+}
+
+.capOpened {
+  transform: translateY(-88px) rotate(-6deg);
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.7));
+}
+
+.capClosed {
+  transform: translateY(0) rotate(0deg);
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.capImage {
+  width: clamp(240px, 27vw, 340px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 -4px 18px rgba(0, 0, 0, 0.4));
+}
+
+/* Cream Rim */
+.jarCreamRim {
+  position: relative;
+  z-index: 2;
+  width: clamp(230px, 26vw, 325px);
+  height: 28px;
+  margin-bottom: -16px;
+  opacity: 0;
+  transform: scaleY(0.4);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.creamRimVisible {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.creamSwirl {
+  width: 94%;
+  height: 20px;
+  border-radius: 50% 50% 10% 10%;
+  background: radial-gradient(
+    ellipse at 50% 20%,
+    #ffffff 0%,
+    #f8f6f0 50%,
+    #eae3d2 85%,
+    #b8ad96 100%
+  );
+  box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.9),
+              0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.silverThread {
+  width: 98%;
+  height: 8px;
+  margin-top: -3px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    #555 0%,
+    #bbb 25%,
+    #fff 50%,
+    #bbb 75%,
+    #444 100%
+  );
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Black Cosmetic Jar Body */
+.bottleFrame {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.bottleImage {
+  width: clamp(240px, 27vw, 340px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
+}
+
+/* ────────────────────────────────────────────────────────────
+   PHASE 7: BOTANICAL LUXURY HERO SECTION (PALM LEAVES + ROCKS + BUY NOW)
+   ──────────────────────────────────────────────────────────── */
+.palmDismissedForBotanical {
+  opacity: 0 !important;
+  transform: scale(0.92) translateY(50px) !important;
+  pointer-events: none !important;
+  transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.77, 0, 0.175, 1) !important;
+}
+
+.botanicalHeroContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 28;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.botanicalHeroVisible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: all;
+}
+
+/* Left Typography & CTA Box */
+.botanicalTextBox {
+  position: absolute;
+  left: clamp(2.5rem, 6.5vw, 7.5rem);
+  top: 48%;
+  transform: translateY(-50%);
+  max-width: 500px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+}
+
+.botanicalHeadingWrapper {
+  width: clamp(280px, 32vw, 440px);
+  margin-bottom: 1.4rem;
+  display: block;
+}
+
+.botanicalHeadingImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.7));
+}
+
+.botanicalParagraph {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(0.92rem, 1.08vw, 1.05rem);
+  font-weight: 400;
+  color: #9ca3af;
+  line-height: 1.75;
+  max-width: 440px;
+  margin: 0 0 2.2rem 0;
+}
+
+.botanicalCtaWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  max-width: 440px;
+  position: relative;
+  z-index: 35;
+}
+
+.buyNowBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.82rem 2.8rem;
+  border-radius: 9999px;
+  background: rgba(145, 150, 160, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  width: fit-content;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+
+.buyNowBtn:hover {
+  background: rgba(185, 190, 200, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Botanical Palm Leaves */
+.palmLeftWrapper {
+  position: absolute;
+  bottom: -40px;
+  left: -35px;
+  width: clamp(260px, 28vw, 420px);
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-30px, 30px);
+  transition: opacity 1.4s ease 0.2s, transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+}
+
+.botanicalHeroVisible .palmLeftWrapper {
+  opacity: 1;
+  transform: translate(0, 0);
+  animation: palmSwayLeft 7s ease-in-out infinite alternate 1.4s;
+}
+
+.palmLeftImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.palmRightWrapper {
+  position: absolute;
+  bottom: -30px;
+  right: -20px;
+  width: clamp(280px, 32vw, 480px);
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(30px, 30px);
+  transition: opacity 1.4s ease 0.3s, transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+}
+
+.botanicalHeroVisible .palmRightWrapper {
+  opacity: 1;
+  transform: translate(0, 0);
+  animation: palmSwayRight 8s ease-in-out infinite alternate 1.4s;
+}
+
+.palmRightImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@keyframes palmSwayLeft {
+  0% { transform: rotate(0deg) translateY(0); }
+  100% { transform: rotate(-2deg) translateY(-6px); }
+}
+
+@keyframes palmSwayRight {
+  0% { transform: rotate(0deg) translateY(0); }
+  100% { transform: rotate(2deg) translateY(-6px); }
+}
+
+/* Rock Formation & Tilted Product Group on Right */
+.botanicalRockProductGroup {
+  position: absolute;
+  right: clamp(0.5rem, 3vw, 4.5rem);
+  bottom: 0;
+  width: clamp(560px, 58vw, 880px);
+  height: clamp(560px, 78vh, 850px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.botanicalRockBase {
+  position: absolute;
+  bottom: clamp(-60px, -6vh, -20px);
+  right: 0;
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95));
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  transition: opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.1s,
+              transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+
+.botanicalHeroVisible .botanicalRockBase {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.botanicalRockImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.botanicalRockShadow {
+  position: absolute;
+  bottom: clamp(110px, 14vh, 205px);
+  left: 54%;
+  transform: translateX(-50%) rotate(15deg);
+  width: clamp(220px, 22vw, 320px);
+  height: 38px;
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.7) 50%,
+    transparent 80%
+  );
+  filter: blur(12px);
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s ease 0.4s;
+}
+
+.botanicalHeroVisible .botanicalRockShadow {
+  opacity: 1;
+}
+
+.botanicalProductJar {
+  position: absolute;
+  bottom: clamp(120px, 15vh, 220px);
+  left: 54%;
+  transform: translate(-50%, 35px) rotate(11deg) scale(0.95);
+  opacity: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.9));
+  transform-origin: center bottom;
+  pointer-events: all;
+  transition: opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.2s,
+              transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+}
+
+.botanicalHeroVisible .botanicalProductJar {
+  opacity: 1;
+  transform: translate(-50%, 0) rotate(16deg) scale(1);
+  animation: botanicalJarHover 6s ease-in-out infinite alternate 1.6s;
+}
+
+@keyframes botanicalJarHover {
+  0% { transform: translate(-50%, 0) rotate(16deg); }
+  100% { transform: translate(-50%, -8px) rotate(16deg); }
+}
+
+.botanicalCapFrame {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -4px;
+}
+
+.botanicalCapImg {
+  width: clamp(280px, 28vw, 390px);
+  height: auto;
+  display: block;
+}
+
+.botanicalBottleFrame {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.botanicalBottleImg {
+  width: clamp(280px, 28vw, 390px);
+  height: auto;
+  display: block;
+}
+
+/* ────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ──────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .trioProductsGrid {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  .botanicalTextBox {
+    top: 30%;
+    left: 2rem;
+    max-width: 380px;
+  }
+  .botanicalRockProductGroup {
+    width: 80vw;
+    right: 50%;
+    transform: translateX(50%);
+    bottom: -20px;
+  }
+  .palmFeaturesList {
+    left: 1.8rem;
+    top: 34%;
+    gap: 1.1rem;
+    max-width: 320px;
+  }
+  .featLabel {
+    font-size: 0.92rem;
+  }
+  .featIconBox {
+    width: 36px;
+    height: 36px;
+  }
+  .palmComposition {
+    width: 85vw;
+    bottom: -20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1.5rem 1.5rem;
+  }
+  .navLinks {
+    gap: 1.5rem;
+  }
+  .navItem {
+    font-size: 0.85rem;
+  }
+  .contactBtn {
+    font-size: 0.85rem;
+    padding: 0.4rem 1.1rem;
+  }
+}
